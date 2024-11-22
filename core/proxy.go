@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 )
@@ -23,9 +24,15 @@ func DoProxy(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		return
 	}
-	query := r.URL.Query()
-	reqURL := os.Getenv("REMOTE_HTTP_SERVER") + "/" + query.Get("params")
-	reqProxy, err := http.NewRequest(r.Method, reqURL, strings.NewReader(string(body)))
+	u, err := url.Parse(os.Getenv("REMOTE_HTTP_SERVER"))
+	if err != nil {
+		http.Error(w, "Invalid target URL", http.StatusInternalServerError)
+		return
+	}
+	u.Path = r.URL.Path
+	u.RawQuery = r.URL.RawQuery
+
+	reqProxy, err := http.NewRequest(r.Method, u.String(), strings.NewReader(string(body)))
 	if err != nil {
 		log.Println("create request error:", err)
 		w.WriteHeader(http.StatusServiceUnavailable)
