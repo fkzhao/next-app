@@ -8,10 +8,6 @@
     {
       "source": "/:path*",
       "destination": "/api/proxy"
-    },
-    {
-      "source": "/",
-      "destination": "/api/v1/index"
     }
   ]
 }
