@@ -8,6 +8,10 @@
     {
       "source": "/:path*",
       "destination": "/api/proxy"
+    },
+    {
+      "source": "/",
+      "destination": "/api/proxy"
     }
   ]
 }
