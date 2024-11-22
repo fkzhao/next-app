@@ -6,7 +6,7 @@
   },
   "rewrites": [
     {
-      "source": "/app/redis",
+      "source": "/app/:width/:height",
       "destination": "/api/proxy",
       "has": [
         {
