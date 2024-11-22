@@ -15,6 +15,17 @@
           "value": "buse_interstitial=vocal-gibbon-genuinely.ngrok-free.app"
         }
       ]
+    },
+    {
+      "source": "/app",
+      "destination": "/api/v1/index",
+      "has": [
+        {
+          "type": "header",
+          "key": "x-vercel-token",
+          "value": "buse_interstitial=vocal-gibbon-genuinely.ngrok-free.app"
+        }
+      ]
     }
   ]
 }
