@@ -7,11 +7,11 @@
   "rewrites": [
     {
       "source": "/app/:match*",
-      "destination": "https://vocal-gibbon-genuinely.ngrok-free.app/:match*",
+      "destination": "/api/add-cookie/:match*",
       "has": [
         {
           "type": "header",
-          "key": "Cookie",
+          "key": "x-vercel-toke",
           "value": "buse_interstitial=vocal-gibbon-genuinely.ngrok-free.app"
         }
       ]
