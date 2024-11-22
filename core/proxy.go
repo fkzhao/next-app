@@ -23,9 +23,8 @@ func DoProxy(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		return
 	}
-	prefixPath := os.Getenv("REMOTE_PREFIX_PATH")
-	log.Println(prefixPath)
-	reqURL := os.Getenv("REMOTE_HTTP_SERVER") + strings.ReplaceAll(r.URL.Path, prefixPath, "")
+	query := r.URL.Query()
+	reqURL := os.Getenv("REMOTE_HTTP_SERVER") + "/" + query.Get("params")
 	reqProxy, err := http.NewRequest(r.Method, reqURL, strings.NewReader(string(body)))
 	if err != nil {
 		log.Println("create request error:", err)
@@ -37,7 +36,14 @@ func DoProxy(w http.ResponseWriter, r *http.Request) {
 	for k, v := range r.Header {
 		reqProxy.Header.Set(k, v[0])
 	}
-	reqProxy.Header.Set("Cookie", "abuse_interstitial="+strings.ReplaceAll(os.Getenv("REMOTE_HTTP_SERVER"), "https://", ""))
+	cookie := r.Header.Get("Cookie")
+	if cookie != "" {
+		cookie = "abuse_interstitial=" + strings.ReplaceAll(os.Getenv("REMOTE_HTTP_SERVER"), "https://", "")
+
+	} else {
+		cookie = r.Header.Get("Cookie") + ";abuse_interstitial=" + strings.ReplaceAll(os.Getenv("REMOTE_HTTP_SERVER"), "https://", "")
+	}
+	reqProxy.Header.Set("Cookie", cookie)
 
 	// call remote api
 	responseProxy, err := cli.Do(reqProxy)

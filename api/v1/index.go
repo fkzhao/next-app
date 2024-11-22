@@ -1,10 +1,13 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
-	"next-app/core"
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	core.DoProxy(w, r)
+	_, err := fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
+	if err != nil {
+		return
+	}
 }
