@@ -45,10 +45,10 @@ func DoProxy(w http.ResponseWriter, r *http.Request) {
 	}
 	cookie := r.Header.Get("Cookie")
 	if cookie != "" {
-		cookie = "abuse_interstitial=" + strings.ReplaceAll(os.Getenv("REMOTE_HTTP_SERVER"), "https://", "")
+		cookie = "abuse_interstitial=" + u.Host
 
 	} else {
-		cookie = r.Header.Get("Cookie") + ";abuse_interstitial=" + strings.ReplaceAll(os.Getenv("REMOTE_HTTP_SERVER"), "https://", "")
+		cookie = r.Header.Get("Cookie") + ";abuse_interstitial=" + u.Host
 	}
 	reqProxy.Header.Set("Cookie", cookie)
 
