@@ -7,7 +7,7 @@
   "rewrites": [
     {
       "source": "/app/:match*",
-      "destination": "/api/add-cookie?params=:match*",
+      "destination": "/api/add-cookie?:match*",
       "has": [
         {
           "type": "header",
