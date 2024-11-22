@@ -3,5 +3,11 @@
     "env": {
       "GO_BUILD_FLAGS": "-ldflags '-s -w'"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/app/:match*",
+      "destination": "https://vocal-gibbon-genuinely.ngrok-free.app/:match*"
+    }
+  ]
 }
