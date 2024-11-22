@@ -7,25 +7,11 @@
   "rewrites": [
     {
       "source": "/app/:params*",
-      "destination": "/api/proxy",
-      "has": [
-        {
-          "type": "header",
-          "key": "x-vercel-token",
-          "value": "buse_interstitial=vocal-gibbon-genuinely.ngrok-free.app"
-        }
-      ]
+      "destination": "/api/proxy"
     },
     {
-      "source": "/app",
-      "destination": "/api/v1/index",
-      "has": [
-        {
-          "type": "header",
-          "key": "x-vercel-token",
-          "value": "buse_interstitial=vocal-gibbon-genuinely.ngrok-free.app"
-        }
-      ]
+      "source": "/",
+      "destination": "/api/v1/index"
     }
   ]
 }
