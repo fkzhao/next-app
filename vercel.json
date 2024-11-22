@@ -6,7 +6,7 @@
   },
   "rewrites": [
     {
-      "source": "/app/:params*",
+      "source": "/app/:params",
       "destination": "/api/proxy",
       "has": [
         {
