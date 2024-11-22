@@ -30,7 +30,8 @@ func DoProxy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	u.Path = r.URL.Path
-	u.RawQuery = r.URL.RawQuery
+	r.URL.Query().Del("path")
+	u.RawQuery = r.URL.Query().Encode()
 
 	reqProxy, err := http.NewRequest(r.Method, u.String(), strings.NewReader(string(body)))
 	if err != nil {
