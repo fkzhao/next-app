@@ -6,7 +6,7 @@
   },
   "rewrites": [
     {
-      "source": "/app/:width/:height",
+      "source": "/app/:params*",
       "destination": "/api/proxy",
       "has": [
         {
