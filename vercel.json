@@ -6,8 +6,8 @@
   },
   "rewrites": [
     {
-      "source": "/app/:match*",
-      "destination": "/api/proxy?params=:match*",
+      "source": "/app/:params*",
+      "destination": "/api/proxy",
       "has": [
         {
           "type": "header",
