@@ -2,7 +2,6 @@ package core
 
 import (
 	"bytes"
-	"compress/gzip"
 	"io"
 	"log"
 	"net/http"
@@ -85,41 +84,41 @@ func DoProxy(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// write data to client
-	var dataOutput []byte
-	isGzipped := isGzipped(responseProxy.Header)
-	if isGzipped {
-		resProxyGzippedBody := io.NopCloser(bytes.NewBuffer(data))
-		defer func(resProxyGzippedBody io.ReadCloser) {
-			err := resProxyGzippedBody.Close()
-			if err != nil {
-
-			}
-		}(resProxyGzippedBody) // delay close
-
-		// gzip Reader
-		gr, err := gzip.NewReader(resProxyGzippedBody)
-		if err != nil {
-			log.Println("create gzip reader error:", err)
-			w.WriteHeader(http.StatusServiceUnavailable)
-			return
-		}
-		defer func(gr *gzip.Reader) {
-			err := gr.Close()
-			if err != nil {
-
-			}
-		}(gr)
-
-		// read gzip data
-		dataOutput, err = io.ReadAll(gr)
-		if err != nil {
-			log.Println("read gzip data error:", err)
-			w.WriteHeader(http.StatusServiceUnavailable)
-			return
-		}
-	} else {
-		dataOutput = data
-	}
+	var dataOutput = data
+	//isGzipped := isGzipped(responseProxy.Header)
+	//if isGzipped {
+	//	resProxyGzippedBody := io.NopCloser(bytes.NewBuffer(data))
+	//	defer func(resProxyGzippedBody io.ReadCloser) {
+	//		err := resProxyGzippedBody.Close()
+	//		if err != nil {
+	//
+	//		}
+	//	}(resProxyGzippedBody) // delay close
+	//
+	//	// gzip Reader
+	//	gr, err := gzip.NewReader(resProxyGzippedBody)
+	//	if err != nil {
+	//		log.Println("create gzip reader error:", err)
+	//		w.WriteHeader(http.StatusServiceUnavailable)
+	//		return
+	//	}
+	//	defer func(gr *gzip.Reader) {
+	//		err := gr.Close()
+	//		if err != nil {
+	//
+	//		}
+	//	}(gr)
+	//
+	//	// read gzip data
+	//	dataOutput, err = io.ReadAll(gr)
+	//	if err != nil {
+	//		log.Println("read gzip data error:", err)
+	//		w.WriteHeader(http.StatusServiceUnavailable)
+	//		return
+	//	}
+	//} else {
+	//	dataOutput = data
+	//}
 
 	resProxyBody := io.NopCloser(bytes.NewBuffer(dataOutput))
 	defer func(resProxyBody io.ReadCloser) {
