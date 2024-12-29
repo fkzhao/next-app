@@ -83,44 +83,7 @@ func DoProxy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// write data to client
-	var dataOutput = data
-	//isGzipped := isGzipped(responseProxy.Header)
-	//if isGzipped {
-	//	resProxyGzippedBody := io.NopCloser(bytes.NewBuffer(data))
-	//	defer func(resProxyGzippedBody io.ReadCloser) {
-	//		err := resProxyGzippedBody.Close()
-	//		if err != nil {
-	//
-	//		}
-	//	}(resProxyGzippedBody) // delay close
-	//
-	//	// gzip Reader
-	//	gr, err := gzip.NewReader(resProxyGzippedBody)
-	//	if err != nil {
-	//		log.Println("create gzip reader error:", err)
-	//		w.WriteHeader(http.StatusServiceUnavailable)
-	//		return
-	//	}
-	//	defer func(gr *gzip.Reader) {
-	//		err := gr.Close()
-	//		if err != nil {
-	//
-	//		}
-	//	}(gr)
-	//
-	//	// read gzip data
-	//	dataOutput, err = io.ReadAll(gr)
-	//	if err != nil {
-	//		log.Println("read gzip data error:", err)
-	//		w.WriteHeader(http.StatusServiceUnavailable)
-	//		return
-	//	}
-	//} else {
-	//	dataOutput = data
-	//}
-
-	resProxyBody := io.NopCloser(bytes.NewBuffer(dataOutput))
+	resProxyBody := io.NopCloser(bytes.NewBuffer(data))
 	defer func(resProxyBody io.ReadCloser) {
 		err := resProxyBody.Close()
 		if err != nil {
@@ -134,21 +97,4 @@ func DoProxy(w http.ResponseWriter, r *http.Request) {
 		log.Println("write response data to client failed:", err)
 		return
 	}
-}
-
-const headerContentEncoding = "Content-Encoding"
-const encodingGzip = "gzip"
-
-func isGzipped(header http.Header) bool {
-	if header == nil {
-		return false
-	}
-
-	contentEncoding := header.Get(headerContentEncoding)
-	isGzipped := false
-	if strings.Contains(contentEncoding, encodingGzip) {
-		isGzipped = true
-	}
-
-	return isGzipped
 }
